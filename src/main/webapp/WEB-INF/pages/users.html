@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Список пользователей</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4; /* Светлый фон */
+            color: #333; /* Темный текст */
+        }
+        h1 {
+            text-align: center;
+            color: #007bff; /* Яркий синий для заголовка */
+            margin-top: 20px;
+        }
+        table {
+            width: 90%; /* Уменьшение ширины таблицы до 90% */
+            margin: 20px auto; /* Центрирование таблицы */
+            border-collapse: collapse;
+            background-color: #fff; /* Белый фон таблицы */
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        th, td {
+            border: 1px solid #ddd; /* Светло-серый бордер ячеек */
+            padding: 15px; /* Увеличение отступов в ячейках */
+            text-align: left;
+            font-size: 18px; /* Увеличение размера шрифта пользователей */
+        }
+        th {
+            background-color: #007bff; /* Яркий синий фон заголовков */
+            color: #fff; /* Белый текст */
+            font-size: 20px; /* Увеличение размера шрифта заголовков */
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2; /* Светло-серый фон четных строк */
+        }
+        tr:hover {
+            background-color: #e9ecef; /* Светло-серый фон при наведении */
+        }
+        .button {
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            border-radius: 4px;
+            margin: 10px 5px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+            border: none;
+            color: #fff;
+        }
+        .button-create {
+            background-color: #28a745; /* Зеленый фон для кнопки создания */
+        }
+        .button-create:hover {
+            background-color: #218838; /* Темнее зеленый при наведении */
+        }
+        .button-edit {
+            background-color: #ffc107; /* Желтый фон для кнопки редактирования */
+        }
+        .button-edit:hover {
+            background-color: #e0a800; /* Темнее желтый при наведении */
+        }
+        .button-delete {
+            background-color: #dc3545; /* Красный фон для кнопки удаления */
+        }
+        .button-delete:hover {
+            background-color: #c82333; /* Темнее красный при наведении */
+        }
+    </style>
+    <script th:inline="javascript">
+        function confirmDelete(event) {
+            if (!confirm('Вы уверены, что хотите удалить пользователя?')) {
+                event.preventDefault();
+            }
+        }
+    </script>
+</head>
+<body>
+<h1>Список пользователей</h1>
+<a th:href="@{/users/newUser}" class="button button-create">Create New User</a>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Email</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}">ID</td>
+        <td th:text="${user.name}">Name</td>
+        <td th:text="${user.age}">Age</td>
+        <td th:text="${user.email}">Email</td>
+        <td>
+            <a th:href="@{/users/user/editUser/{id}(id=${user.id})}" class="button button-edit">Edit</a>
+            <form th:action="@{/users/delete}" method="post" onsubmit="confirmDelete(event)">
+                <input type="hidden" name="id" th:value="${user.id}" />
+                <button type="submit" class="button button-delete">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
