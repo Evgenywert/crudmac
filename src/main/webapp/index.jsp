@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>стартовая страница</title>
@@ -86,7 +86,7 @@
 <body>
 <div style="text-align: center;">
     <h2>Здравствуйте!</h2>
-    <a href="http://localhost:8081/mycrud_war_exploded/users" class="apple-button" onclick="showLoading()">Перейти к пользователям</a>
+    <a href="users/new" class="apple-button" onclick="showLoading()">Перейти к пользователям</a>
 </div>
 <div id="loading-overlay" class="loading-overlay">
     <div class="loader"></div>

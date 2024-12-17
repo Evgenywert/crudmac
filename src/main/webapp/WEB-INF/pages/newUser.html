@@ -70,17 +70,18 @@
 </head>
 <body>
 <h2>Добавить нового пользователя</h2>
-<form action="#" th:action="@{/users/new}" th:object="${user}" method="post">
-    <label for="name">NAME:</label>
-    <input type="text" id="name" name="name" th:field="*{name}">
+<form th:action="@{/users/new}" method="post">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required />
 
     <label for="email">Email:</label>
-    <input type="email" id="email" name="email" th:field="*{email}">
+    <input type="email" id="email" name="email" required />
 
-    <label for="age">AGE:</label>
-    <input type="number" id="age" name="age" th:field="*{age}">
-    <input type="submit" value="ADD">
+    <label for="age">Age:</label>
+    <input type="number" id="age" name="age" required />
+
+    <button type="submit" class="button button-create">Save</button>
 </form>
-<a href="http://localhost:8081/mycrud_war_exploded/users" class="button">Back</a>
+<a th:href="@{/users}" class="button">Back</a>
 </body>
 </html>

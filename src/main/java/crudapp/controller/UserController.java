@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
+@RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
@@ -19,41 +20,46 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/users")
+    @GetMapping
     public String listUsers(Model model) {
         List<User> users = userService.getAllUsers();
         model.addAttribute("users", users);
         return "users";
     }
 
-    @GetMapping("/users/newUser")
-    public String newUser(Model model) {
+
+
+    @GetMapping("/new")
+    public String addnewUser(Model model) {
         model.addAttribute("user", new User());
         return "newUser";
     }
 
-    @PostMapping("/users/new")
+    @PostMapping("/new")
     public String saveUser(@ModelAttribute("user") User user) {
         userService.createOrUpdateUser(user);
         return "redirect:/users";
     }
 
-    @GetMapping("/users/user/editUser/{id}")
-    public String editUser(@PathVariable("id") int id, Model model) {
+    @GetMapping("/user/editUser/{id}")
+    public String editUser(@PathVariable Long id, Model model) {
         Optional<User> userOptional = userService.getUserById(id);
-        User user = userOptional.orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
-        model.addAttribute("user", user);
-        return "editUser";
+        if (userOptional.isPresent()) {
+            model.addAttribute("user", userOptional.get());
+            return "editUser";
+        } else {
+            return "redirect:/users"; // Перенаправление, если пользователь не найден
+        }
     }
 
-    @PutMapping("/user/edit")
-    public ResponseEntity<Void> updateUser(@RequestBody User user) {
+    @PostMapping("/user/edit")
+    public String updateUser(@ModelAttribute("user") User user) {
         userService.createOrUpdateUser(user);
-        return ResponseEntity.ok().build();
+        return "redirect:/users";
     }
 
-    @PostMapping("/users/delete")
-    public String deleteUser(@RequestParam("id") int id) {
+    @PostMapping("/delete")
+    public String deleteUser(@RequestParam("id") Long id) {
         userService.deleteUser(id);
         return "redirect:/users";
     }

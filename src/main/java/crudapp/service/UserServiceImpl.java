@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public Optional<User> getUserById(int id) {
+    public Optional<User> getUserById(Long id) {
         return userDao.findById(id);
     }
 
@@ -35,21 +35,10 @@ public class UserServiceImpl implements UserService {
         userDao.merge(user);
     }
 
-    @Override
-    @Transactional
-    public void createUser(User user) {
-        userDao.save(user);
-    }
 
     @Override
     @Transactional
-    public void updateUser(User user) {
-        userDao.save(user);
-    }
-
-    @Override
-    @Transactional
-    public void deleteUser(int id) {
+    public void deleteUser(Long id) {
         userDao.deleteById(id);
     }
 }
